@@ -1,18 +1,26 @@
 package org.example.crud;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class AddColleges {
-    public void addColleges() {
-        int rows = 0;
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jbdl76", "root", "VijayMysql@7");
-             Statement statement = connection.createStatement()) {
 
-            rows = statement.executeUpdate("insert into colleges values('Sridevi', 16, 'Khanapur');");
-        }
-        catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    JdbcTemplate jdbcTemplate;
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        System.out.println("setting jdbc template object and dataSource object");
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void addColleges() {
+
+        int rows = jdbcTemplate.update("insert into Colleges values('abc2', 19, 'xyz2');");
+
         if(rows > 0) System.out.println("Successfully added " + rows + " Record(s)");
         else System.out.println("Failed to add Record(s). Try again.");
     }
